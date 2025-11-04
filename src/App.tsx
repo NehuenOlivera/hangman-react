@@ -4,11 +4,13 @@ import { HangmanDrawing } from "./HangmanDrawing";
 import { HangmanWord } from "./HangmanWord";
 import { Keyboard } from "./Keyboard";
 
+function getWord() {
+  const randomIndex = Math.floor(Math.random() * words.length);
+  return words[randomIndex];
+}
+
 function App() {
-  const [wordToGuess, setWordToGuess] = useState(() => {
-    const randomIndex = Math.floor(Math.random() * words.length);
-    return words[randomIndex];
-  });
+  const [wordToGuess, setWordToGuess] = useState(getWord);
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
   const incorrectLetters = guessedLetters.filter(
@@ -46,6 +48,24 @@ function App() {
     };
   }, [guessedLetters]);
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const key = e.key;
+
+      if (key !== "Enter") return;
+
+      e.preventDefault();
+      setGuessedLetters([]);
+      setWordToGuess(getWord());
+    };
+
+    document.addEventListener("keypress", handler);
+
+    return () => {
+      document.removeEventListener("keypress", handler);
+    };
+  }, [guessedLetters]);
+
   return (
     <div
       style={{
@@ -58,8 +78,8 @@ function App() {
       }}
     >
       <div style={{ fontSize: "2rem", textAlign: "center" }}>
-        {isWinner && "Winner!! - Refresh for another word"}
-        {isLoser && "Nope, you lost - Refresh to try again"}
+        {isWinner && "Winner!! - Hit Enter or refresh for another word"}
+        {isLoser && "Nope, you lost - Hit Enter or refresh to try again"}
       </div>
       <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
       <HangmanWord
