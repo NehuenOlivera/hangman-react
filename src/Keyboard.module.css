@@ -1,14 +1,15 @@
 .btn {
   width: 100%;
-  border: 3pm solid black;
+  border: 2px solid black;
   background: none;
   aspect-ratio: 1 / 1;
-  font-size: 2.5rem;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
   text-transform: uppercase;
-  padding: 0.5rem;
+  padding: 0.5em, 0;
   font-weight: bold;
   cursor: pointer;
   color: black;
+  transition: background 0.2s ease;
 }
 
 .btn.active {
@@ -23,4 +24,10 @@
 .btn:hover:not(:disabled),
 .btn:focus:not(:disabled) {
   background-color: #ffc0cb;
+}
+
+@media (max-width: 600px) {
+  .btn {
+    padding: 0.4em 0;
+  }
 }

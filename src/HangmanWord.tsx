@@ -13,8 +13,10 @@ export function HangmanWord({
     <div
       style={{
         display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
         gap: ".25em",
-        fontSize: "6rem",
+        fontSize: "clamp(2rem, 8vw, 6rem)",
         fontWeight: "bold",
         textTransform: "uppercase",
         fontFamily: "monospace",
